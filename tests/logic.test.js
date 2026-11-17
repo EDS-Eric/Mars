@@ -277,3 +277,37 @@ test('AI persona is Mars the cobberdog', () => {
   const { PERSONA } = require('../main/ai');
   assert.match(PERSONA, /Mars/); assert.match(PERSONA, /cobberdog/); assert.doesNotMatch(PERSONA, /shark/i);
 });
+
+test('food hunt: only after 2 minutes without input, never asleep, hidden, in the kennel, during a video or a game', () => {
+  const base = { idleSec: 200, sleeping: false, hidden: false, inCave: false, cat: 'other' };
+  assert.ok(L.wantsFoodHunt(base));
+  assert.ok(L.wantsFoodHunt({ ...base, cat: 'work' }));
+  assert.ok(!L.wantsFoodHunt({ ...base, idleSec: L.HUNT_IDLE_S - 1 }));
+  assert.ok(L.wantsFoodHunt({ ...base, idleSec: L.HUNT_IDLE_S }));
+  for (const k of ['sleeping', 'hidden', 'inCave']) assert.ok(!L.wantsFoodHunt({ ...base, [k]: true }), k);
+  assert.ok(!L.wantsFoodHunt({ ...base, cat: 'watch' }));
+  assert.ok(!L.wantsFoodHunt({ ...base, cat: 'game' }));
+  assert.ok(L.userBack(0) && L.userBack(2) && !L.userBack(L.BACK_IDLE_S));
+});
+
+test('huntSpot covers the whole screen', () => {
+  assert.deepStrictEqual(L.huntSpot(0, 0, 1700, 900), { x: 0, y: 0 });
+  assert.deepStrictEqual(L.huntSpot(0.5, 0.5, 1700, 900), { x: 850, y: 450 });
+  const far = L.huntSpot(0.999, 0.999, 1700, 900); assert.ok(far.x <= 1700 && far.y <= 900 && far.x > 1690);
+});
+
+test('callsPetName: "Marsi" as a word, any case; not Mars, not marsipan', () => {
+  for (const t of ['Marsi', 'hoi marsi!', 'MARSI?', 'good dog, Marsi.', 'Marsi❤']) assert.ok(L.callsPetName(t), t);
+  for (const t of ['Mars', 'marsipan', 'Marsies', '', null, 'smarsi']) assert.ok(!L.callsPetName(t), String(t));
+  assert.ok(L.tr('en', 'petName').includes('Marsi') && L.tr('nl', 'petName').includes('Marsi'));
+});
+
+test('welcome hops: a bigger party the very first time', () => {
+  assert.ok(L.welcomeHops(true) > L.welcomeHops(false));
+  assert.ok(L.welcomeHops(false) >= 2);
+});
+
+test('AI persona knows the nickname Marsi', () => {
+  const { PERSONA } = require('../main/ai');
+  assert.match(PERSONA, /Marsi/);
+});

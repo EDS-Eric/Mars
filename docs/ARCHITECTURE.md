@@ -53,7 +53,15 @@ Anything the user does calls `interrupt()`, which cancels walking and activity w
 
 `activity.js` emits `{name, full, media}` every 2.5 s (`media` = some app is playing, from Windows' media controls via WinRT in the same PowerShell; only the playback status, never titles). The renderer classifies it with `L.classifyApp`, debounces, and sets `S.mimicAct` (`game`, `laptop`, `sing`, `read`). A browser in front while media plays is `watch` -> `sing` (sunglasses, mic, dance).
 
-While a model reply is pending, `ponder()` puts the class `pondering` on the SVG (head tilt, eyes up, "hmm" mouth, thought bubbles); it is removed when the reply (or the fallback) arrives.
+While a model reply is pending, `sniffFor(promise)` puts `.sniffing` on the root and trots slowly back and forth near the spot until the reply (or the fallback) arrives.
+
+**Food hunt.** `huntLoop` asks the main process every 5 s for `powerMonitor.getSystemIdleTime()` (`window.mars.idleSeconds()`: a number only).
+`L.wantsFoodHunt` (2 min idle, not asleep / hidden / in the kennel / watching / gaming) starts `foodHunt`: sniffing walks to `L.huntSpot`s all over the
+screen, sometimes a crumb (jump + `bone`). The hunt owns `idleBusy` while it runs; anything that interrupts it (chat, poke, drag, mirroring, kennel)
+takes over, bedtime releases it. Input again (`L.userBack`) -> `endHunt`: trot home, happy.
+
+**Hops.** `hopAround(n, emo)` restarts the one-shot `jump` animation n times with small sideways moves (`moveTo(..., { noTrot: true })`). Used at start
+(`L.welcomeHops`: 3, or 7 with hearts the very first time, remembered as `metAt` in the store) and when a chat message contains *Marsi* (`L.callsPetName`).
 `setAct(null)` returns to that act, the idle loop pauses, and `tick` defers greetings and chatter while gaming.
 
 ## Learning

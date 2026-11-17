@@ -21,7 +21,7 @@
       ['happy', 'talk'], ['sad', 'hug'], ['angry', 'game'], ['surprised', 'jump'], ['neutral', 'blink'], ['neutral', 'laptop'], ['happy', 'laptop'],
       ['grumpy', 'idle'], ['grumpy', 'laptop'], ['grumpy', 'talk'], ['neutral', 'cave'],
       ['happy', 'toy'], ['neutral', 'bone'], ['love', 'hug'], ['neutral', 'walk'], ['neutral', 'sniff'],
-      ['happy', 'sing'], ['neutral', 'think'], ['neutral', 'laptop+think'],
+      ['happy', 'sing'],
     ];
     for (const [emo, act] of cells) {
       const cell = document.createElement('div'); cell.className = 'cell';
@@ -31,7 +31,6 @@
       svg.dataset.emo = emo;
       if (act === 'walk' || act === 'sniff') { const w = document.createElement('div'); w.className = 'mars walking' + (act === 'sniff' ? ' sniffing' : ''); w.style.cssText = 'position:absolute;left:10px;top:18px'; w.append(svg); cell.append(lbl, w); stage.append(cell); continue; }
       if (act === 'talk') svg.classList.add('talking'); else if (act === 'blink') svg.classList.add('blink');
-      else if (act.endsWith('think')) { svg.classList.add('pondering'); if (act.includes('+')) svg.dataset.act = act.split('+')[0]; }
       else svg.dataset.act = act;
       cell.append(lbl, svg); stage.append(cell);
     }
@@ -68,10 +67,34 @@
     if (ms) emoTimer = setTimeout(() => setEmo(baseEmo()), ms);
   }
   function setAct(a) { a = a || S.mimicAct; if (a) svg.dataset.act = a; else delete svg.dataset.act; }
-  /** While the model thinks, so does Mars: head tilt, eyes up, little thought bubbles. */
-  async function ponder(p) {
-    svg.classList.add('pondering');
-    try { return await p; } finally { svg.classList.remove('pondering'); }
+  /** While the model thinks, Mars sniffs the floor for an answer: nose down, slowly back and forth near the spot. */
+  async function sniffFor(p) {
+    let done = false;
+    const x0 = S.x, y0 = S.y;
+    const result = Promise.resolve(p).catch(() => null).finally(() => { done = true; S.walkId++; });
+    root.classList.add('sniffing');
+    (async () => {
+      let dir = Math.random() < 0.5 ? -1 : 1;
+      while (!done && !S.dragging) {
+        await moveTo(x0 + dir * rand(25, 60), y0, 32);
+        dir = -dir;
+        if (!done) await pause(rand(300, 900));
+      }
+    })();
+    try { return await result; } finally { root.classList.remove('sniffing', 'walking'); face(1); }
+  }
+  /** Happy hops: jumps with little sideways bounces. Stops early when something else takes over. */
+  async function hopAround(n, emo = 'happy') {
+    const token = ++S.token;
+    emote(emo, 0);
+    const bob = svg.querySelector('.bobber');
+    for (let i = 0; i < n && token === S.token && !S.dragging; i++) {
+      delete svg.dataset.act; getComputedStyle(bob).animationName; // restart the jump animation
+      setAct('jump');
+      const dx = (i % 2 ? -1 : 1) * rand(25, 65);
+      await Promise.all([moveTo(S.x + dx, S.y, 120, { noTrot: true }), pause(560)]);
+    }
+    if (token === S.token) { setAct(null); setEmo(baseEmo()); face(1); }
   }
   function interrupt() { S.token++; S.walkId++; root.classList.remove('walking', 'sniffing'); if (S._wake) S._wake(); }
   const maxX = () => Math.max(HOME_X, window.innerWidth - L.DOG_W - 8);
@@ -92,7 +115,7 @@
       if (!opts.free) { tx = clampX(tx); ty = clampY(ty); }
       if (Math.hypot(tx - S.x, ty - S.y) < 4) return resolve();
       if (Math.abs(tx - S.x) > 2) face(tx - S.x);
-      root.classList.add('walking');
+      if (!opts.noTrot) root.classList.add('walking');
       let last = performance.now();
       const step = (now) => {
         if (id !== S.walkId) return resolve();
@@ -215,6 +238,57 @@
     }
   }
 
+  /* ---------------- the user is away: look for food ---------------- */
+  let hunting = false;
+  /** Roams the whole screen, sniffing for food, until the user is back or something else takes over (chat, poke, drag, bedtime, kennel). */
+  async function foodHunt() {
+    hunting = true; interrupt(); idleBusy = true;
+    const token = S.token;
+    delete svg.dataset.act; // not mirroring the user while they are away
+    setEmo(baseEmo());
+    try {
+      while (hunting && token === S.token && !S.sleeping && !S.dragging) {
+        const spot = L.huntSpot(Math.random(), Math.random(), maxX(), maxY());
+        root.classList.add('sniffing');
+        await moveTo(spot.x, spot.y, 55);
+        if (!hunting || token !== S.token) break;
+        await waitFor(rand(1200, 2600)); // sniff sniff
+        root.classList.remove('sniffing');
+        if (hunting && token === S.token && Math.random() < L.CRUMB_CHANCE) { // found a crumb!
+          emote('happy', 0); setAct('jump'); await waitFor(700);
+          if (token === S.token) { setAct('bone'); await waitFor(rand(2500, 4000)); }
+          if (token === S.token) { delete svg.dataset.act; setEmo(baseEmo()); }
+        }
+      }
+    } finally {
+      if (token === S.token) root.classList.remove('sniffing', 'walking'); // only tidy up if the hunt still owns the dog
+      if (token !== S.token && hunting) { // something else took over; it owns idleBusy from here (bedtime does not, so release it)
+        hunting = false;
+        if (S.sleeping) idleBusy = false;
+      }
+    }
+  }
+  /** The user is back: stop sniffing and trot home, glad to see them. */
+  async function endHunt() {
+    hunting = false; interrupt();
+    const token = S.token;
+    root.classList.remove('sniffing');
+    delete svg.dataset.act; // e.g. still chewing a found crumb
+    emote('happy', 3000);
+    await moveTo(S.homeX, S.homeY, 110);
+    if (token === S.token) { idleBusy = false; setAct(null); setEmo(baseEmo()); } // else whoever interrupted the trot home takes over
+  }
+  async function huntLoop() {
+    for (;;) {
+      await pause(5000);
+      let idleSec = 0;
+      try { idleSec = await api.idleSeconds(); } catch { continue; }
+      if (hunting) { if (L.userBack(idleSec)) await endHunt(); continue; }
+      if (S.bubbleOpen || S.dragging || idleBusy) continue;
+      if (L.wantsFoodHunt({ idleSec, sleeping: S.sleeping, hidden: S.hidden, inCave: S.inCave, cat: S.cat })) foodHunt();
+    }
+  }
+
   /* ---------------- sleep ---------------- */
   async function goToSleep(announce) {
     if (S.sleeping) return;
@@ -264,7 +338,7 @@
       // The model writes the reaction itself and can use what Mars has learned (e.g. what you did today).
       say('...', { emotion: 'neutral', ttl: 95000, talk: false });
       const prompt = rating ? `Your friend just answered your evening question "How was your day?" with: ${rating}. React in your own words, warmly, and if you know something relevant about their day, mention it lightly.` : v;
-      const reply = await ponder(api.chat(prompt, { ...ctx(), kind: rating ? 'checkin' : undefined }));
+      const reply = await sniffFor(api.chat(prompt, { ...ctx(), kind: rating ? 'checkin' : undefined }));
       if (reply && reply.text) {
         text = reply.text; emotion = reply.emotion;
         if (!rating) S.mood.adjust({ happy: 6, love: 10, sad: -6, angry: -4 }[reply.emotion] || 0);
@@ -301,9 +375,12 @@
         const text = await say(msg, { emotion, input: true, placeholder: T('chatPh') });
         if (!text) break;
         S.lastInteract = Date.now();
-        say('...', { emotion: 'neutral', ttl: 95000, talk: false });
-        let reply = S.ai ? await ponder(api.chat(text, ctx())) : null;
-        if (!reply || !reply.text) reply = L.fallbackReply(text, S.lang);
+        const pet = L.callsPetName(text);
+        say('...', { emotion: pet ? 'happy' : 'neutral', ttl: 95000, talk: false });
+        const answer = S.ai ? api.chat(text, ctx()) : null; // ask right away; hops and sniffing pass the time
+        if (pet) await hopAround(5, 'love');
+        let reply = answer ? await sniffFor(answer) : null;
+        if (!reply || !reply.text) reply = pet ? { emotion: 'love', text: T('petName') } : L.fallbackReply(text, S.lang);
         S.mood.adjust({ happy: 6, love: 10, sad: -6, angry: -4 }[reply.emotion] || 0);
         msg = reply.text; emotion = reply.emotion;
       }
@@ -570,9 +647,16 @@
     S.homeX = S.x = h.x; S.homeY = S.y = h.y; place();
     ensureDayMood(new Date()); S.mood.value = S.mood.base; setEmo(baseEmo());
     S.ai = (await api.aiStatus()).available;
-    setTimeout(tick, 3500);
+    // Happy to see you: hops at every start, a real party (with hearts) the very first time.
+    const firstEver = !S.data.metAt;
+    if (firstEver) S.data = await api.setStore({ metAt: new Date().toISOString() });
+    await pause(700);
+    idleBusy = true;
+    try { await hopAround(L.welcomeHops(firstEver), firstEver ? 'love' : 'happy'); } finally { idleBusy = false; }
+    setTimeout(tick, 1500);
     setInterval(tick, 20000);
     idleLoop();
+    huntLoop();
     if (L.shouldSleep(new Date())) { /* tick handles the nap after the greeting */ }
   })();
 })();

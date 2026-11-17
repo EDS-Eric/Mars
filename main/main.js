@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const fs = require('fs');
-const { app, BrowserWindow, Tray, Menu, ipcMain, screen, nativeImage } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, screen, nativeImage, powerMonitor } = require('electron');
 const { createStore, readEnv } = require('./store');
 const { createAI } = require('./ai');
 const { startActivityWatcher } = require('./activity');
@@ -185,6 +185,8 @@ function start() {
   ipcMain.handle('store:get', () => store.get());
   ipcMain.handle('store:set', (_e, patch) => store.set(patch && typeof patch === 'object' ? patch : {}));
   ipcMain.handle('ai:status', () => ({ available: ai.available() }));
+  // Seconds since the last keyboard/mouse input anywhere (a number only; nothing about what was typed or where).
+  ipcMain.handle('sys:idle', () => powerMonitor.getSystemIdleTime());
   ipcMain.handle('ai:chat', (_e, text, ctx) => {
     text = String(text || ''); ctx = ctx && typeof ctx === 'object' ? ctx : {};
     if (learnOn) { if (ctx.kind !== 'checkin') L.addFacts(memory, L.extractFacts(text)); memoryDirty = true; ctx.memory = L.summarizeMemory(memory); } else ctx.memory = '';

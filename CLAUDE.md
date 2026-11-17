@@ -46,7 +46,7 @@ docs/             ARCHITECTURE.md, DECISIONS.md, snapshots.png
   must degrade to the scripted `fallbackReply`, never to an error message in the bubble.
 - **Model**: `claude-haiku-5-5` (fastest). Sampling parameters must not be sent (400 on this model). `ai.js` sends thinking disabled
   + `effort: low` and retries plain on a 400.
-- **Privacy of mirroring and learning**: only the foreground *process name* is read, never window titles. Learning keeps *aggregated counters* and facts the user typed in `userData/memory.json`; it is never sent to the cloud (the summary goes into the prompt of the local Ollama model only, see `ai.js`), can be switched off and wiped from the menu. Keep it that way.
+- **Privacy of mirroring and learning**: only the foreground *process name* is read, never window titles. Learning keeps *aggregated counters* and facts the user typed in `userData/memory.json`; it is never sent to the cloud (the summary goes into the prompt of the local Ollama model only, see `ai.js`), can be switched off and wiped from the menu. Idle detection (food hunt) reads only *seconds since the last input* via `powerMonitor`. Keep it that way.
 - Windows only. Default always-on-top level on purpose (does not cover fullscreen games or video).
 - Keep the repo dependency-light: runtime dep is the Anthropic SDK only; dev dep is Electron.
 

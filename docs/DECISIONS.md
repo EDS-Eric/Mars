@@ -77,6 +77,7 @@ Short records of why things are the way they are. Newest last.
     flag leaves the process, never titles or artists. Side effect: music from another app while browsing also makes Mars sing, which is in the spirit of it.
     Any failure = flag 0 = the old behaviour.
 35. **Thinking is a class, not an act or emotion (0.6.0).** `pondering` overlays whatever Mars is doing (on the laptop too) and cannot leak into the model's emotion tags.
+    *Replaced in Mars 0.3.0 by sniffing for an answer (48).*
 
 ## Mars
 
@@ -106,3 +107,13 @@ Short records of why things are the way they are. Newest last.
 47. **Laptop = Mars behind the laptop.** A screen that faces the viewer reads as "showing" not "working". The lid's back (paw-print logo) faces the
     viewer, the paws type out of sight behind it, and a soft screen glow on the face (`.screen-glow`, a prop inside `.head`) tells you the screen is on.
     The laptop is drawn after the near leg so the lid covers the paws; it sits below the collar so the tag stays visible.
+48. **Waiting for the AI = sniffing the floor for an answer** (user's wish), instead of the thinking pose. A dog thinks with its nose. The thinking pose
+    (`pondering`, thought bubbles, "hmm" mouth) was removed rather than kept as dead code.
+49. **"Not doing anything" = no keyboard/mouse input for 2 minutes**, from `powerMonitor.getSystemIdleTime()` in the main process: one number, no
+    hooks, no permissions, nothing stored. Not during `watch` or `game` (you can sit still and watch). No bubbles while hunting: nobody is there
+    to read them, and it must never nag. Coming back ends it within 5 s.
+50. **The hunt yields to everything.** Chat, poke, drag, mirroring, the kennel and bedtime all interrupt it and own the dog from there; only the hunt's own
+    "you're back" ending walks Mars home. (A first version ended the hunt from the poll after a chat had taken over, which cancelled the *Marsi* hops.)
+51. **Start hops every time, a party the first time.** "When I start Mars for the first time" could mean the first launch ever or every launch; a short
+    hop at every start plus a longer love-hop the very first time covers both. *Marsi* is matched as a whole word (not *marsipan*), any case,
+    and the persona knows the nickname.

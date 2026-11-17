@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('mars', {
   setStore: (patch) => ipcRenderer.invoke('store:set', patch),
   memorySummary: () => ipcRenderer.invoke('memory:summary'),
   aiStatus: () => ipcRenderer.invoke('ai:status'),
+  idleSeconds: () => ipcRenderer.invoke('sys:idle'),
   chat: (text, ctx) => ipcRenderer.invoke('ai:chat', text, ctx),
   hide: () => ipcRenderer.send('hide'),
   focus: () => ipcRenderer.send('focus'),

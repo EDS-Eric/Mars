@@ -21,7 +21,12 @@ Sister project of [Sharky](https://github.com/EDS-Eric/Sharky): same engine, a d
 - **Copies what you do.** Gaming? Mars games too (with wins and fails). Working in Word, Excel, PowerPoint, Outlook, an editor or the browser? Mars puts on **reading glasses** and types on a laptop. Reading a PDF? Mars reads. No talking while you game; greetings wait. Turn it off in the right-click menu (*Copy what I'm doing*). Only the **process name** of the active app is read, locally; nothing is stored or sent.
 - **Howls along with YouTube.** Browser in front while a video (or music) plays? Sunglasses on, nose up to the microphone: *Awoooo ♪*. Only the *playing / not playing* status is read from Windows' media controls, never what is playing.
 - **Has mood swings and bad days.** Every day is a good, normal or bad day (about 1 in 5 is bad: the fur goes a bit grey, a little rain cloud). The mood drifts back to that, with an occasional swing. Cheering Mars up works, for a while.
-- **Thinks** while the AI writes an answer: head tilt, eyes up, little thought bubbles.
+- **Sniffs the floor for an answer** while the AI writes one: nose down, slowly back and forth.
+- **Looks for food when you're away.** No keyboard or mouse for 2 minutes? Mars roams the whole screen, nose to the ground, now and then finds a crumb
+  (a happy hop and a quick chew). Touch the mouse or a key and Mars trots back home, glad to see you. Not while a video or game is on (you may be
+  watching). Only the number of seconds since your last input is read, never what you typed or where.
+- **Is happy to see you**: hops around at every start; the very first time it's a real party, with hearts.
+- **Knows the nickname.** Write *Marsi* in the chat and Mars jumps around before answering.
 - **Sleeps** from 23:00 to 06:00, lying down with the plush toy. Wake Mars and you hear about the squirrel dream you interrupted.
 - **Loves treats**: right-click > *Give Mars a treat*.
 - **Talks to you**: double-click Mars for a chat. With an Anthropic API key the answers come from the fastest Claude model

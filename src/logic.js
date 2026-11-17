@@ -93,6 +93,7 @@
       swingUp: ['Ooh, suddenly I feel great!', 'Zoomies incoming!', 'Wheee, happy paws!'], swingDown: ['Hmpf.', 'Meh...', 'Sigh. One of those moments.'],
       sing: ['♪ Awoooo ♪', '♫ Woof-woof-woooo ♫', '♪ La-la-awooo! ♪', '♫ Paws up, everybody! ♫'],
       treat: ['Yum! Thank you! *crunch crunch*', 'A treat! You are the best human ever!', 'Om nom nom! More? No? Okay, still happy!'],
+      petName: ["Marsi! That's me! *wiggles all over*", 'You said Marsi! *happy zoomies*', 'Marsi is here! *wag wag wag*'],
       fbJoke: 'What do you call a dog magician? A labracadabrador!', fbDefault: "Hmm, I'm a simple dog without my brain connected. Connect a local model (Ollama) or add an API key in .env and we can really talk!",
     },
     nl: {
@@ -142,6 +143,7 @@
       swingUp: ['Ooh, ineens voel ik me top!', 'Hier komen de zoomies!', 'Joepie, blije pootjes!'], swingDown: ['Hmpf.', 'Meh...', "Zucht. Zo'n moment."],
       sing: ['♪ Auwoeoe ♪', '♫ Woef-woef-woeoe ♫', '♪ La-la-auwoe! ♪', '♫ Pootjes omhoog, allemaal! ♫'],
       treat: ['Mmm! Dankjewel! *knabbel knabbel*', 'Een koekje! Jij bent de allerbeste!', 'Nom nom nom! Nog eentje? Nee? Oké, nog steeds blij!'],
+      petName: ['Marsi! Dat ben ik! *kwispelt helemaal*', 'Je zei Marsi! *blije rondjes*', 'Marsi is er! *kwispel kwispel*'],
       fbJoke: 'Wat zegt een hond op schuurpapier? Ruw! Ruw!', fbDefault: 'Hmm, ik ben maar een simpele hond zonder verbonden brein. Koppel een lokaal model (Ollama) of zet een API-sleutel in .env, dan kunnen we echt praten!',
     },
   };
@@ -304,6 +306,24 @@
   /** Which activity mirrors a category (null = Mars just lives a dog's life). */
   const MIMIC_ACT = { game: 'game', work: 'laptop', browse: 'laptop', watch: 'sing', read: 'read', other: null };
 
+  /* ---- when the user is away: Mars goes looking for food ---- */
+  const HUNT_IDLE_S = 120; // no keyboard or mouse for 2 minutes
+  const BACK_IDLE_S = 3;   // input again within the last few seconds = the user is back
+  /** True when Mars should roam the screen sniffing for food. Never during a video or a game (the user may sit still and watch). */
+  function wantsFoodHunt({ idleSec, sleeping, hidden, inCave, cat }) {
+    return idleSec >= HUNT_IDLE_S && !sleeping && !hidden && !inCave && cat !== 'watch' && cat !== 'game';
+  }
+  const userBack = (idleSec) => idleSec < BACK_IDLE_S;
+  /** A sniffing spot anywhere on the screen (x from the left, y from the bottom), from two random numbers in [0, 1). */
+  const huntSpot = (r1, r2, maxX, maxY) => ({ x: Math.round(r1 * maxX), y: Math.round(r2 * maxY) });
+  const CRUMB_CHANCE = 0.25; // per sniffing spot
+
+  /* ---- happy hops ---- */
+  /** "Marsi" (the nickname) in a chat message, as a word, any case. */
+  const callsPetName = (text) => /(^|[^\p{L}])marsi([^\p{L}]|$)/iu.test(String(text || ''));
+  /** How many hops when Mars starts: a real party the very first time. */
+  const welcomeHops = (firstEver) => (firstEver ? 7 : 3);
+
   /* ---- learning about the user (all local; aggregated counters, never a log, never window titles) ---- */
   const MAX_FACTS = 20;
   const CAT_WORDS = { game: 'play games', work: 'work', browse: 'browse the web', watch: 'watch videos', read: 'read', other: 'use other apps' };
@@ -385,5 +405,6 @@
     return parts.join(' ');
   }
 
-  return { DOG_W, DOG_H, clampPos, caveSide, DAY_MOOD_BASE, pickDayMood, moodSwing, STR, tr, emptyMemory, recordSample, extractFacts, addFacts, summarizeMemory, classifyApp, MIMIC_ACT, EMOTIONS, LINES, FACTS, CHATTER, periodOf, shouldSleep, dayKey, greetingKey, greeting, pick, Mood, PokeTracker, pickActivity, dayReaction, fallbackReply, parseReply };
+  return { DOG_W, DOG_H, clampPos, caveSide, DAY_MOOD_BASE, pickDayMood, moodSwing, STR, tr, emptyMemory, recordSample, extractFacts, addFacts, summarizeMemory, classifyApp, MIMIC_ACT, EMOTIONS, LINES, FACTS, CHATTER, periodOf, shouldSleep, dayKey, greetingKey, greeting, pick, Mood, PokeTracker, pickActivity, dayReaction, fallbackReply, parseReply,
+    HUNT_IDLE_S, BACK_IDLE_S, wantsFoodHunt, userBack, huntSpot, CRUMB_CHANCE, callsPetName, welcomeHops };
 });

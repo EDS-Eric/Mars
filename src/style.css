@@ -120,9 +120,6 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: transparent;
 .drop { stroke: #4a90c2; stroke-width: 3; stroke-linecap: round; animation: rain 1s linear infinite; }
 .d2 { animation-delay: .33s; } .d3 { animation-delay: .66s; }
 @keyframes rain { 0% { transform: translateY(-2px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
-.t { fill: #fff; stroke: #8a4f1c; stroke-width: 2.5; opacity: 0; animation: thought 1.8s ease-in-out infinite; }
-.t2 { animation-delay: .3s; } .t3 { animation-delay: .6s; }
-@keyframes thought { 0%,15% { opacity: 0; } 40%,85% { opacity: 1; } 100% { opacity: 0; } }
 
 /* ---------- body parts that move ---------- */
 .bobber { animation: breathe 3.4s ease-in-out infinite; transform-box: view-box; transform-origin: 165px 236px; }
@@ -273,13 +270,6 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: transparent;
 [data-act="sing"] .legL-wrap { animation: tap .5s ease-in-out infinite alternate; }
 @keyframes tap { from { transform: rotate(0); } to { transform: rotate(-10deg) translateY(-4px); } }
 
-/* pondering (waiting for the AI): head tilt, eyes up, one brow up, "hmm", thought bubbles */
-.dog-svg.pondering { --lid: -32px; --rotL: -10deg; --rotR: 4deg; --browL: -14deg; --browY: -2px; }
-.dog-svg.pondering .pupil { --lx: 5px; --ly: -8px; animation: none; }
-.dog-svg.pondering .mouth { display: none !important; }
-.dog-svg.pondering .m-hmm { display: inline !important; }
-.dog-svg.pondering .head { transform: rotate(-12deg); animation: none; }
-.dog-svg.pondering .thought { opacity: 1; }
 
 /* grumpy (a bad day): flat lids, low brows, a bit greyer, a little rain cloud */
 [data-emo="grumpy"] { --lid: -24px; --rotL: -5deg; --rotR: 5deg; --browL: 8deg; --browR: -8deg; --browY: 5px; }

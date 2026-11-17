@@ -3,6 +3,20 @@
 All notable changes. Format: [Keep a Changelog](https://keepachangelog.com), versions `MAJOR.MINOR.PATCH`
 (pre-1.0: minor = features, patch = fixes and documentation).
 
+## [0.3.0] — 2026-11-17
+
+### Added
+- **Food hunt when you're away**: after 2 minutes without keyboard or mouse input Mars roams the whole screen sniffing for food, sometimes finds a crumb
+  (happy hop, quick chew), and trots home as soon as you're back. Not during a video or a game, never a bubble. Reads only the idle seconds
+  (`powerMonitor`), new bridge call `idleSeconds()`.
+- **Happy to see you**: hops around at every start; the very first start is a longer party with hearts (remembered as `metAt`).
+- **Marsi**: writing the nickname in the chat makes Mars jump around before answering (scripted reply without AI; the persona knows the nickname).
+- Tests for the new rules (`wantsFoodHunt`, `userBack`, `huntSpot`, `callsPetName`, `welcomeHops`, persona).
+
+### Changed
+- **Waiting for the AI**: Mars sniffs the floor for an answer (nose down, slowly back and forth) instead of the thinking pose; the thinking pose,
+  thought bubbles and "hmm" mouth are removed. Also used for the evening check-in.
+
 ## [0.2.1] — 2026-11-17
 
 ### Fixed
@@ -33,7 +47,7 @@ All notable changes. Format: [Keep a Changelog](https://keepachangelog.com), ver
   dark button nose, floppy ears, wagging plume tail, red collar with a gold tag.
 - Everything Sharky does, as a dog: greetings, "how was your day?", emotions (happy = tongue out and panting, sad = drooping ears), pokes,
   grumpy bad days and mood swings, mirroring games / work (laptop + reading glasses) / reading, singing along becomes **howling** at a
-  microphone with sunglasses, thinking pose with a **head tilt**, chat via Claude Haiku 5.5 or a local Ollama model, learning (local only),
+  microphone with sunglasses, **head tilt**, chat via Claude Haiku 5.5 or a local Ollama model, learning (local only),
   English / Nederlands, quiet mode, drag anywhere, tray, start with Windows.
 - Dog life: **trotting** (legs, ears and dust puffs), **sniffing** the floor, playing with the **plush planet toy** (*squeak!*), chewing a **bone**,
   the **head tilt** while looking around, chasing the tail (dance), lying down to **sleep** with the toy.
