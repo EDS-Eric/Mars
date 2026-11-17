@@ -237,8 +237,15 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: transparent;
 [data-act="wave"] .head { transform: rotate(-4deg); }
 [data-act="hug"] .legR-wrap { transform: rotate(-80deg); }
 [data-act="hug"] .head { transform: rotate(8deg); }
-[data-act="jump"] .bobber { animation: jump .55s ease-out 1; }
-@keyframes jump { 0% { transform: translateY(0); } 40% { transform: translateY(-36px) rotate(-5deg); } 100% { transform: translateY(0); } }
+/* a big happy jump: crouch, spring up high (stretched), land with a little squash */
+[data-act="jump"] .bobber { animation: jump .66s ease-out 1; }
+@keyframes jump {
+  0% { transform: translateY(0) scale(1.07, .9); }
+  14% { transform: translateY(-6px) scale(.95, 1.07); animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+  45% { transform: translateY(-78px) rotate(-6deg) scale(.97, 1.04); animation-timing-function: cubic-bezier(.6, 0, .8, .4); }
+  82% { transform: translateY(0) scale(1.08, .9); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
 [data-act="jump"] .ear { transform: rotate(-14deg); }
 [data-act="shake"] .bobber { animation: shake .12s linear infinite; }
 @keyframes shake { 0%,100% { transform: translateX(-4px); } 50% { transform: translateX(4px); } }

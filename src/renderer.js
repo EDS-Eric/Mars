@@ -67,11 +67,14 @@
     if (ms) emoTimer = setTimeout(() => setEmo(baseEmo()), ms);
   }
   function setAct(a) { a = a || S.mimicAct; if (a) svg.dataset.act = a; else delete svg.dataset.act; }
+  let sniffing = false; // sniffing for an answer: mirroring waits until it is done
   /** While the model thinks, Mars sniffs the floor for an answer: nose down, slowly back and forth near the spot. */
   async function sniffFor(p) {
     let done = false;
     const x0 = S.x, y0 = S.y;
     const result = Promise.resolve(p).catch(() => null).finally(() => { done = true; S.walkId++; });
+    sniffing = true;
+    delete svg.dataset.act; // nose to the floor: put the laptop (or book, game, mic) away for now
     root.classList.add('sniffing');
     (async () => {
       let dir = Math.random() < 0.5 ? -1 : 1;
@@ -81,7 +84,7 @@
         if (!done) await pause(rand(300, 900));
       }
     })();
-    try { return await result; } finally { root.classList.remove('sniffing', 'walking'); face(1); }
+    try { return await result; } finally { sniffing = false; root.classList.remove('sniffing', 'walking'); face(1); setAct(null); } // back to what Mars was mirroring
   }
   /** Happy hops: jumps with little sideways bounces. Stops early when something else takes over. */
   async function hopAround(n, emo = 'happy') {
@@ -92,7 +95,7 @@
       delete svg.dataset.act; getComputedStyle(bob).animationName; // restart the jump animation
       setAct('jump');
       const dx = (i % 2 ? -1 : 1) * rand(25, 65);
-      await Promise.all([moveTo(S.x + dx, S.y, 120, { noTrot: true }), pause(560)]);
+      await Promise.all([moveTo(S.x + dx, S.y, 120, { noTrot: true }), pause(680)]);
     }
     if (token === S.token) { setAct(null); setEmo(baseEmo()); face(1); }
   }
@@ -536,7 +539,7 @@
   /* ---- copy what the user is doing ---- */
   async function setCategory(cat) {
     S.cat = cat; S.mimicAct = L.MIMIC_ACT[cat] || null;
-    if (S.sleeping || S.dragging) return;
+    if (S.sleeping || S.dragging || sniffing) return; // after sniffing, setAct(null) picks up the new mimic act
     interrupt(); idleBusy = false;
     if (S.mimicAct) {
       await walkTo(S.homeX + rand(0, 120));

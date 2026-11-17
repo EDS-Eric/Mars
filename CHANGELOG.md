@@ -3,6 +3,15 @@
 All notable changes. Format: [Keep a Changelog](https://keepachangelog.com), versions `MAJOR.MINOR.PATCH`
 (pre-1.0: minor = features, patch = fixes and documentation).
 
+## [0.3.1] — 2026-11-17
+
+### Changed
+- **Higher happy jump**: about twice as high, with a crouch, a stretch in the air and a little squash on landing (0.66 s). Hops wait for it.
+
+### Fixed
+- **Sniffing for an answer puts the laptop away.** While mirroring work (laptop and glasses) Mars kept the laptop during the sniffing; now any mirrored
+  prop (laptop, book, game, mic) is put away while sniffing and comes back with the answer. A mirroring change during the sniffing waits for it.
+
 ## [0.3.0] — 2026-11-17
 
 ### Added

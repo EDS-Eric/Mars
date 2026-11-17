@@ -117,3 +117,5 @@ Short records of why things are the way they are. Newest last.
 51. **Start hops every time, a party the first time.** "When I start Mars for the first time" could mean the first launch ever or every launch; a short
     hop at every start plus a longer love-hop the very first time covers both. *Marsi* is matched as a whole word (not *marsipan*), any case,
     and the persona knows the nickname.
+52. **Sniffing beats mirroring.** While `sniffFor` runs, the mirrored act is removed (nose to the floor and holding a laptop do not mix) and
+    `setCategory` only records the new category; `setAct(null)` at the end restores whatever is mirrored by then.
