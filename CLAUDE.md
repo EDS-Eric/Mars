@@ -27,7 +27,7 @@ src/logic.js      PURE rules (periods, mood, pokes, dialogue EN/NL, activity cho
 src/renderer.js   behaviour: movement, bubble, activities, daily rhythm, input, kennel
 src/index.html    CSP + the dog SVG <template> + the kennel <template>
 src/style.css     palette, emotions (data-emo), activities (data-act), animations, bubble
-scripts/          make-icon.js (tray icon rendered from the dog SVG), install.ps1
+scripts/          make-icon.js (tray icon rendered from the dog SVG), install.ps1, make-shortcut.ps1 (desktop shortcut + icon.ico)
 tests/            node:test unit tests (no Electron needed)
 docs/             ARCHITECTURE.md, DECISIONS.md, snapshots.png
 ```

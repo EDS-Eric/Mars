@@ -180,8 +180,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: transparent;
 [data-act="laptop"] { --lid: -30px; }
 [data-act="laptop"] .pupil { --ly: 7px; --lx: 4px; }
 [data-act="laptop"] .head { transform: rotate(5deg) translate(0, 4px); }
-[data-act="laptop"] .legR-wrap { animation: typing .17s ease-in-out infinite; }
-[data-act="laptop"] .legL-wrap { animation: typing .23s ease-in-out .08s infinite; }
+[data-act="laptop"] .legR-wrap { animation: typing .34s ease-in-out infinite; }
+[data-act="laptop"] .legL-wrap { animation: typing .46s ease-in-out .16s infinite; }
 @keyframes typing { 0%,100% { transform: rotate(-6deg) translateY(-2px); } 50% { transform: rotate(-6deg) translateY(-8px); } }
 .glasses .lens { fill: rgba(220, 240, 255, .18); stroke: #1b0f0b; stroke-width: 3.5; }
 .glasses .arm { fill: none; stroke: #1b0f0b; stroke-width: 3.5; stroke-linecap: round; }

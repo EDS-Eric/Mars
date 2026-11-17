@@ -55,6 +55,10 @@ Mars.bat              start Mars by hand (Mars also starts at every logon after 
 
 or by hand: `npm install` then `npm start`.
 
+Desktop shortcut with the Mars icon: `powershell -ExecutionPolicy Bypass -File scripts\make-shortcut.ps1`.
+
+If Mars won't start because `node_modules\electron\dist\electron.exe` is missing (the Electron download was interrupted), run `node node_modules\electron\install.js`.
+
 On first run Mars is registered under *Start with Windows* (`HKCU\...\Run\Mars`). Turn it off from the tray or right-click menu.
 
 ### Optional: give Mars a brain

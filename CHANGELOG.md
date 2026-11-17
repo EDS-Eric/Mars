@@ -3,6 +3,15 @@
 All notable changes. Format: [Keep a Changelog](https://keepachangelog.com), versions `MAJOR.MINOR.PATCH`
 (pre-1.0: minor = features, patch = fixes and documentation).
 
+## [0.3.2] — 2026-11-17
+
+### Added
+- **Desktop shortcut.** A `Mars` shortcut on the desktop starts Mars directly (no console window), with the cobberdog icon.
+  `scripts/make-shortcut.ps1` creates it (and `assets/icon.ico`, the 256 px `icon.png` in an ICO container, since shortcuts can't use a PNG).
+
+### Changed
+- **Slower typing**: the typing animation at the laptop now runs at about half speed.
+
 ## [0.3.1] — 2026-11-17
 
 ### Changed

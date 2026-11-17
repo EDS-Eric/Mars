@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] 0.3.2 — Slower typing on the laptop; desktop shortcut with the Mars icon.
 - [x] 0.3.1 — Higher happy jump; no laptop while sniffing for an answer.
 - [x] 0.3.0 — Food hunt when you're away, happy hops at start, *Marsi* hops, sniffing for an answer.
 - [x] 0.2.1 — Laptop pose redone: Mars behind the laptop, screen facing Mars, glow on the face.
