@@ -1,0 +1,21 @@
+{
+  "name": "mars",
+  "version": "0.2.0",
+  "description": "Mars - an animated cartoon Australian cobberdog who lives on your Windows desktop.",
+  "main": "main/main.js",
+  "private": true,
+  "license": "MIT",
+  "author": "Eric Wever",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/",
+    "snapshots": "electron . --snapshots",
+    "icon": "electron scripts/make-icon.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.9.0"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3"
+  }
+}

@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.log
+.DS_Store
+dist/
+out/
+
+# Local-only notes (never pushed)
+PROMPT_HISTORY.md
+memory.json
