@@ -3,6 +3,13 @@
 All notable changes. Format: [Keep a Changelog](https://keepachangelog.com), versions `MAJOR.MINOR.PATCH`
 (pre-1.0: minor = features, patch = fixes and documentation).
 
+## [0.2.1] — 2026-11-17
+
+### Fixed
+- **Typing on the laptop looks right now.** The screen faced the viewer, the keyboard was a thin slanted strip under the chest and the paw covered the
+  screen. Mars now sits behind the open laptop: you see the back of the lid (paw-print logo), the screen faces Mars and lights the face with a soft,
+  gently pulsing blue glow, and Mars peeks over the lid with the reading glasses on.
+
 ## [0.2.0] — 2026-11-17
 
 ### Changed

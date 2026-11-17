@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] 0.2.1 — Laptop pose redone: Mars behind the laptop, screen facing Mars, glow on the face.
 - [x] 0.2.0 — New look chosen from a concept sheet (two rounds): flat & friendly, a one-year-old with small amber eyes and a longer snout.
 - [x] 0.1.0 — Mars the cobberdog on the Sharky 0.6.0 engine: dog drawing, dog activities (sniff, plush toy, bone, head tilt), treat, kennel, photo icon.
 

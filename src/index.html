@@ -15,6 +15,7 @@
   <defs>
     <clipPath id="eyeClip"><circle r="17"/></clipPath>
     <radialGradient id="iris" cx="50%" cy="60%" r="60%"><stop offset="0" stop-color="#c98a3e"/><stop offset=".65" stop-color="#8a4f1c"/><stop offset="1" stop-color="#4a2a10"/></radialGradient>
+    <radialGradient id="screenGlow" cx="50%" cy="65%" r="50%"><stop offset="0" stop-color="#cdeeff" stop-opacity=".5"/><stop offset=".6" stop-color="#cdeeff" stop-opacity=".18"/><stop offset="1" stop-color="#cdeeff" stop-opacity="0"/></radialGradient>
     <radialGradient id="furShine" cx="40%" cy="30%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
   </defs>
 
@@ -61,13 +62,6 @@
       <path d="M203,211 h9 M207.5,206.5 v9" stroke="#2a1a55" stroke-width="3" stroke-linecap="round"/>
       <circle cx="268" cy="210" r="3" fill="#ff5a6e"/><circle cx="271" cy="219" r="3" fill="#ffd24a"/>
     </g>
-    <g class="prop laptop">
-      <rect x="226" y="160" width="70" height="46" rx="5" fill="#2f3945" stroke="#5f6b78" stroke-width="3"/>
-      <rect x="231" y="165" width="60" height="35" rx="2" fill="#bfe3ff"/>
-      <path d="M236,172 h22 M236,179 h36 M236,186 h14 M254,186 h22 M236,193 h28" stroke="#3b7bbf" stroke-width="3" stroke-linecap="round"/>
-      <path d="M182,222 L296,206 L304,216 L190,236 Z" fill="#aab3bd" stroke="#5f6b78" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M196,226 l92,-13 M200,231 l94,-14" stroke="#7f8a96" stroke-width="2" stroke-dasharray="5 3"/>
-    </g>
     <g class="prop toy">
       <!-- the plush planet toy: a soft red ball with craters and a little face -->
       <circle cx="262" cy="212" r="24" fill="#e0603a" stroke="#9c3a1f" stroke-width="3"/>
@@ -84,6 +78,19 @@
     </g>
     <!-- near front leg (waves, types, holds) -->
     <g class="legR-wrap leg"><path class="fur" d="M252.2,202 A10.9,10.9 0 0 1 249.6,220 A10.2,10.2 0 0 1 242.9,233.2 A5.8,5.8 0 0 1 233.7,235.2 A7.2,7.2 0 0 1 225.2,227.6 A10.4,10.4 0 0 1 220.8,211.2 A13.4,13.4 0 0 1 220.1,192.4 A11.5,11.5 0 0 1 225.3,176.6 A7.7,7.7 0 0 1 233.7,168.8 A6.6,6.6 0 0 1 242.8,171.1 A9.7,9.7 0 0 1 249.8,183.7 A11.8,11.8 0 0 1 252.2,202 Z"/><path class="fur paw" d="M259.4,230 A5.3,5.3 0 0 1 254.8,236.6 A7.1,7.1 0 0 1 242.4,239.6 A7.9,7.9 0 0 1 229,238.7 A5.8,5.8 0 0 1 220.1,233.4 A4.6,4.6 0 0 1 220,226.5 A6.1,6.1 0 0 1 229.3,221.6 A8.3,8.3 0 0 1 242.4,220.3 A8.2,8.2 0 0 1 254.7,223.4 A4.7,4.7 0 0 1 259.4,230 Z"/><path class="toes" d="M246,226 v7 M238,227 v6"/></g>
+
+    <!-- laptop: Mars sits behind it; we see the back of the lid (paw-print logo), paws typing out of sight, the screen lights the face -->
+    <g class="prop laptop">
+      <path d="M180,232 L294,224 L296,232 L182,240 Z" fill="#7f8a96" stroke="#4d5763" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M188,184 L286,177 L294,226 L182,233 Z" fill="#b4bdc7" stroke="#4d5763" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M192,186 L284,179.5" stroke="#bfe6ff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <path d="M196,192 L280,186 L286,221 L192,227 Z" fill="#c3cbd4" opacity=".55"/>
+      <g fill="#8f9aa6">
+        <ellipse cx="237" cy="210" rx="8" ry="6.5"/>
+        <ellipse cx="226" cy="199" rx="3.2" ry="4"/><ellipse cx="233.5" cy="194.5" rx="3.2" ry="4"/>
+        <ellipse cx="241.5" cy="194.5" rx="3.2" ry="4"/><ellipse cx="248.5" cy="199" rx="3.2" ry="4"/>
+      </g>
+    </g>
 
     <!-- collar: dark, with the red MARS heart tag -->
     <path class="collar" d="M166,152 Q208,176 249,153"/>
@@ -127,6 +134,7 @@
       <path class="brow brow-l" d="M177,74 Q187,68 197,72"/>
       <path class="brow brow-r" d="M221,72 Q231,68 241,74"/>
 
+      <ellipse class="prop screen-glow" cx="210" cy="104" rx="52" ry="40"/>
       <!-- reading glasses: only while typing -->
       <g class="prop glasses">
         <path class="arm" d="M165,85 L146,80"/>

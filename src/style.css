@@ -177,7 +177,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: transparent;
 @keyframes scr { 50% { fill: #a9e87a; } }
 
 /* laptop: glasses on, typing with the front paw */
-[data-act="laptop"] .laptop, [data-act="laptop"] .glasses { display: inline; }
+[data-act="laptop"] .laptop, [data-act="laptop"] .glasses, [data-act="laptop"] .screen-glow { display: inline; }
+.screen-glow { fill: url(#screenGlow); opacity: .75; pointer-events: none; animation: glow 2.6s ease-in-out infinite alternate; }
+@keyframes glow { to { opacity: 1; } }
 [data-act="laptop"] { --lid: -30px; }
 [data-act="laptop"] .pupil { --ly: 7px; --lx: 4px; }
 [data-act="laptop"] .head { transform: rotate(5deg) translate(0, 4px); }

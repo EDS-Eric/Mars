@@ -1,6 +1,6 @@
 {
   "name": "mars",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Mars - an animated cartoon Australian cobberdog who lives on your Windows desktop.",
   "main": "main/main.js",
   "private": true,

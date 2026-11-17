@@ -103,3 +103,6 @@ Short records of why things are the way they are. Newest last.
     working. Flat fills and thin soft outlines; curl strokes became round curl dots; the top-knot pom-pom went (that read as a poodle); each eye is the
     old eye scaled to 0.56 (lids and pupil offsets scale with it, so no CSS numbers changed); the muzzle is scaled narrower and longer and the nose and
     mouths sit 8 units lower (a slightly longer snout); a small moustache; a dark collar with a red heart tag, like the real one.
+47. **Laptop = Mars behind the laptop.** A screen that faces the viewer reads as "showing" not "working". The lid's back (paw-print logo) faces the
+    viewer, the paws type out of sight behind it, and a soft screen glow on the face (`.screen-glow`, a prop inside `.head`) tells you the screen is on.
+    The laptop is drawn after the near leg so the lid covers the paws; it sits below the collar so the tag stays visible.
